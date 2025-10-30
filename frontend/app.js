@@ -325,7 +325,7 @@ generatePdfBtn.addEventListener('click', async () => {
       formData.append('logFiles', file);
     });
 
-    const response = await fetch('http://localhost:3000/api/generate-pdf', {
+    const response = await fetch('/api/generate-pdf', {
       method: 'POST',
       body: formData
     });
@@ -378,7 +378,7 @@ generateDocxBtn.addEventListener('click', async () => {
       formData.append('logFiles', file);
     });
 
-    const response = await fetch('http://localhost:3000/api/generate-docx', {
+    const response = await fetch('/api/generate-docx', {
       method: 'POST',
       body: formData
     });

@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Create uploads directory
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir = process.env.VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -419,8 +419,13 @@ app.post('/api/generate-docx', upload.fields([
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 BugReportEase server running on http://localhost:${PORT}`);
-  console.log(`📝 Open your browser and navigate to the URL above`);
-});
+// Start server (for local development)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 BugReportEase server running on http://localhost:${PORT}`);
+    console.log(`📝 Open your browser and navigate to the URL above`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
